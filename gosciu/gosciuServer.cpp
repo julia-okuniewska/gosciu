@@ -8,6 +8,18 @@ socklen_t clientSize = sizeof(client);
 char host[NI_MAXHOST];  
 char svc[NI_MAXSERV];  
 
+
+GosciuServer::GosciuServer(){
+
+    std::cout<<"gosciu init";
+
+};
+
+GosciuServer::~GosciuServer(){
+  std::cout<<"gosciu init";
+};
+
+
 int serverInit(void)
 {
 

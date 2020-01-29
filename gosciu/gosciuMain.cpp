@@ -18,6 +18,8 @@ int clientSocket = 0;
 
 int main(void){
 
+    GosciuServer* gosciuServer = new GosciuServer();
+
     std::cout<<"GOSCIU SOFTWARE"<<std::endl;
     std::cout<<"REMEMBER TO CONNECT WITH 54000 PORT"<<std::endl;
 

@@ -10,6 +10,21 @@
 #include <string.h>
 #include <string>
 
+struct EfectorPos {
+    float x;
+    float y;
+    float z;
+};
+
+class GosciuServer {
+    private:
+        EfectorPos efectorPos;
+
+    public:
+    GosciuServer();
+    ~GosciuServer();
+
+};
 
 int serverInit(void);
 int getClientOnServer(int *clientSocket);
