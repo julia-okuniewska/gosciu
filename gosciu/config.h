@@ -1,7 +1,6 @@
-#ifndef GOSCIUENGINES_H
-#define GOSCIUENGINES_H
+#pragma once
 
-#include <wiringPi.h>
+#define GEAR_RATIO 29.5
 
 #define SPI_MOSI_PIN 12
 #define SPI_MISO_PIN 13
@@ -28,12 +27,3 @@
 
 #define STEP_4 24
 #define DIR_4  23
-
-enum engineDIR  {left, right};
-
-void pinoutSetup(void);
-void stepUP(int which_engine, engineDIR dir);
-void stepDOWN(int which_engine, engineDIR dir);
-void genetate_steps(int which_engine, int how_many, engineDIR dir);
-
-#endif
