@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <unistd.h>
-
+#include <math.h>
 
 void Engine::Init()
 {
@@ -56,7 +56,8 @@ EngineStatus Engine::GetStatus()
 EngineStepMode Engine::GetStepMode()
 {
     return stepMode;
-}
+
+//Rotate geared engine 
 
 //Rotate geared engine 
 void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
@@ -65,6 +66,7 @@ void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
     unsigned long rotationSteps;
     float stepTime;
     angle = abs(angle);
+    //steptime <=2 ms
 
     switch (this->stepMode)
     {
@@ -92,7 +94,7 @@ void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
 
     while (rotationSteps)
     {
-        this->Step(stepTime)
+        this->Step(stepTime);
         rotationSteps--;
     }
     
