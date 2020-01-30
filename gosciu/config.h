@@ -1,4 +1,7 @@
 #pragma once
+
+#define GEAR_RATIO 31
+
 #define SPI_MOSI_PIN 12
 #define SPI_MISO_PIN 13
 #define SPI_CLK_PIN  14

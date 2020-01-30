@@ -1,4 +1,4 @@
-#include "engines.h"
+#include "driver.h"
 
 #include <stdio.h>
 #include <iostream>
@@ -39,6 +39,7 @@ void Engine::SetDirection(EngineDir direction)
     this->dirPin = direction;
     this->status.direction = direction;
 }
+
 template<typename T>
 void Engine::Step(T durationMs)
 {
@@ -57,4 +58,45 @@ EngineStepMode Engine::GetStepMode()
     return stepMode;
 }
 
+//Rotate geared engine 
+void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
+{
+    this->SetDirection(direction);
+    unsigned long rotationSteps;
+    float stepTime;
+    angle = abs(angle);
+
+    switch (this->stepMode)
+    {
+    case EngineStepMode::full:
+        rotationSteps = STEP_ANGLE*angle*GEAR_RATIO;
+        //stepTime ~ speed
+    break;
+    case EngineStepMode::half:
+        rotationSteps = STEP_ANGLE*angle*2*GEAR_RATIO;
+         //stepTime ~ speed
+    break;
+    case EngineStepMode::quarter:
+        rotationSteps = STEP_ANGLE*angle*4*GEAR_RATIO;
+         //stepTime ~ speed
+    break;
+    case EngineStepMode::one_eighth:
+        rotationSteps = STEP_ANGLE*angle*8*GEAR_RATIO;
+         //stepTime ~ speed
+    break;
+    case EngineStepMode::one_sixteenth:
+        rotationSteps = STEP_ANGLE*angle*16*GEAR_RATIO;
+         //stepTime ~ speed
+    break;
+    }
+
+    while (rotationSteps)
+    {
+        this->Step(stepTime)
+        rotationSteps--;
+    }
+    
+
+
+}
 
