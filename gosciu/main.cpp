@@ -1,28 +1,20 @@
-#include "gosciuMain.h"
+#include "main.h"
 
 #include <stdio.h>
 #include <iostream>
 
-//enum engineDIR  {left, right};
-enum engineSTATUS {stop, run};
-
-struct Engine {
-    enum engineDIR DIR;
-    enum engineSTATUS STATUS;
-};
-
-struct Engine engines[5];
+Engine engines[5];
 
 //-------- server variables ------------ 
-int clientSocket = 0;
+
 
 int main(void){
 
-    GosciuServer* gosciuServer = new GosciuServer();
+    Server* server = new Server();
 
     std::cout<<"GOSCIU SOFTWARE"<<std::endl;
     std::cout<<"REMEMBER TO CONNECT WITH 54000 PORT"<<std::endl;
-
+   
     if(wiringPiSetup() == -1)
     {
         printf("wiringPi is not enabled!!!");
@@ -31,22 +23,18 @@ int main(void){
     pinoutSetup();
 
 
-while(1)
-   {
-        genetate_steps(4, 20, engineDIR::right);
-   }
+
 
 
 
 //--------------- SERVER INIT -----------------
-    int initVal = serverInit();
-    if (initVal != 0)
+    
+    if (server->GetStatusCode() != 0)
     {
         std::cerr<<"Server init failed. Shutting down the system ... ";
         return -1;
     }
     
-    getClientOnServer(&clientSocket);
 
 
 

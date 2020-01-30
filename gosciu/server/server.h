@@ -1,5 +1,4 @@
-#ifndef GOSCIUSERVER_H
-#define GOSCIUSERVER_H
+#pragma once
 
 #include <iostream>
 #include <sys/types.h>
@@ -9,6 +8,8 @@
 #include <arpa/inet.h>      // linux only
 #include <string.h>
 #include <string>
+#include <functional>
+
 
 struct EfectorPos {
     float x;
@@ -16,18 +17,20 @@ struct EfectorPos {
     float z;
 };
 
-class GosciuServer {
+class Server {
     private:
-        EfectorPos efectorPos;
+    int* clientSocket;
+    int GetClient();
+    int Init(uint32_t port);
+    int statusCode;
 
     public:
-    GosciuServer();
-    ~GosciuServer();
+    Server();
+    Server(uint32_t port);
+    ~Server();
+    int* GetClientSocket();
+    int GetStatusCode();
+    static void Loop(std::function<void(void)> callback);
+
 
 };
-
-int serverInit(void);
-int getClientOnServer(int *clientSocket);
-int closeServer(int clientSocket);
-
-#endif
