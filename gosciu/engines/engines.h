@@ -21,7 +21,8 @@ class Engine
     static EngineStepMode stepMode;
 
     public:
-    void Step(unsigned int durationMs);
+    template<typename T>
+    void Engine::Step(T durationMs);
     void SetDirection(EngineDir direction);
     static void SetStepMode(EngineStepMode stepMode);
     EngineStatus GetStatus();

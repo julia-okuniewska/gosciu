@@ -39,8 +39,8 @@ void Engine::SetDirection(EngineDir direction)
     this->dirPin = direction;
     this->status.direction = direction;
 }
-
-void Engine::Step(unsigned int durationMs)
+template<typename T>
+void Engine::Step(T durationMs)
 {
     digitalWrite(this->stepPin, 1);
     usleep(durationMs*1000);
