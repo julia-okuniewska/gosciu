@@ -18,7 +18,7 @@ class Engine
     private:
     EngineStatus status;
     uint8_t stepPin, dirPin;
-    static EngineStepMode stepMode;
+    static EngineStepMode stepMode = EngineStepMode::half;
 
     public:
     template<typename T>

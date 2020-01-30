@@ -1,12 +1,16 @@
 #include "main.h"
-
+#include <thread>
 #include <stdio.h>
 #include <iostream>
 
-Engine engines[5];
+
 
 //-------- server variables ------------ 
 
+void dataParser(char* msg)
+{
+
+}
 
 int main(void){
 
@@ -20,58 +24,18 @@ int main(void){
         printf("wiringPi is not enabled!!!");
         return 1;
     }
-    pinoutSetup();
 
+    Engine engine[5];
+    Engine::Init();
+    Engine::SetStepMode(EngineStepMode::half);
+    engine[0].Setup(STEP_0,DIR_0);
+    engine[1].Setup(STEP_1,DIR_1);
+    engine[2].Setup(STEP_2,DIR_2);
+    engine[3].Setup(STEP_3,DIR_3);
+    engine[4].Setup(STEP_4,DIR_4);
 
+    std::thread serverLoopThread(server->Loop,dataParser);
 
-
-
-
-//--------------- SERVER INIT -----------------
-    
-    if (server->GetStatusCode() != 0)
-    {
-        std::cerr<<"Server init failed. Shutting down the system ... ";
-        return -1;
-    }
-    
-
-
-
-
-
-//=============== MAIN SERVER LOOP ==================
-char buf[4096];
-    while(true)
-    {
-        //clear a buffer
-        memset(buf,0,sizeof(buf)/sizeof(buf[0]));
-        //wait for a message
-        int bytesRecv = recv(clientSocket, buf, 4096, 0);
-        if(bytesRecv == -1)
-        {
-            std::cerr<< "There was a connection issue" <<std::endl;            
-            std::cout<< "Client socket = " << clientSocket;
-            closeServer(clientSocket);
-            break;
-        }
-        
-        if (bytesRecv == 0 )
-        {
-            std::cout << "The client is disconnected"<<std::endl;
-            closeServer(clientSocket);
-            break;
-        }
-
-
-        // display message
-        std::cout << "Received " << std::string(buf,0,bytesRecv) <<std::endl;        
-          // resend message
-        send(clientSocket, buf,bytesRecv + 1, 0);        
-
-        parse(buf);
-        
-    }
 
     return 0;
 }

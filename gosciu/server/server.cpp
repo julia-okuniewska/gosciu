@@ -13,11 +13,21 @@ Server::Server(){
 
     std::cout<<"gosciu init";
     this->statusCode = this->Init(54000);
+    if (this->statusCode != 0)
+    {
+        std::cerr<<"Server init failed. Shutting down the system ... ";
+        exit(-1);
+    }
 };
 Server::Server(uint32_t port){
 
     std::cout<<"gosciu init";
     this->statusCode = this->Init(port);
+    if (this->statusCode != 0)
+    {
+        std::cerr<<"Server init failed. Shutting down the system ... ";
+        exit(-1);
+    }
 };
 
 Server::~Server(){
@@ -101,11 +111,44 @@ int* Server::GetClientSocket()
 {
     return this->clientSocket;
 }
-
-void Server::Loop(std::function<void(void)> callback)
+void Server::CloseServer()
 {
-    while(1)
-    {
+    close(*this->clientSocket);
+}
 
+void Server::Loop(std::function<void(char*)> callback)
+{
+    while(true)
+    {
+        //clear a buffer
+        memset(this->buf,0,sizeof(this->buf)/sizeof(this->buf[0]));
+        //wait for a message
+        int bytesRecv = recv(*this->clientSocket, this->buf, 4096, 0);
+        if(bytesRecv == -1)
+        {
+            std::cerr<< "There was a connection issue" <<std::endl;            
+            std::cout<< "Client socket = " << *this->clientSocket;
+            this->CloseServer();
+            break;
+        }
+        
+        if (bytesRecv == 0 )
+        {
+            std::cout << "The client is disconnected"<<std::endl;
+            this->CloseServer();
+            break;
+        }
+
+
+        // display message
+        //std::cout << "Received " << std::string(this->buf,0,bytesRecv) <<std::endl;        
+          // resend message
+        send(*this->clientSocket, this->buf,bytesRecv + 1, 0);        
+
+        if(callback != NULL)
+            callback(this->buf);
+        
     }
+    std::cerr<<"Something broke up server loop. Exiting..."<<std::endl;
+    exit(-2);
 }

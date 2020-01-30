@@ -23,6 +23,9 @@ class Server {
     int GetClient();
     int Init(uint32_t port);
     int statusCode;
+    char buf[4096];
+    void CloseServer();
+
 
     public:
     Server();
@@ -30,7 +33,7 @@ class Server {
     ~Server();
     int* GetClientSocket();
     int GetStatusCode();
-    static void Loop(std::function<void(void)> callback);
+    void Loop(std::function<void(char*)> callback);
 
 
 };

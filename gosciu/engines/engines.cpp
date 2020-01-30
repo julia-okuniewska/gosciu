@@ -52,7 +52,7 @@ EngineStatus Engine::GetStatus()
     return this->status;
 }
 
-EngineStatus Engine::GetStepMode()
+EngineStepMode Engine::GetStepMode()
 {
     return stepMode;
 }
