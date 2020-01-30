@@ -20,10 +20,17 @@ struct EfectorPos {
 class Server {
     private:
     int* clientSocket;
-    int GetClient();
-    int Init(uint32_t port);
+    int listening = 0;
+    sockaddr_in hint;
+    sockaddr_in client;
+    socklen_t clientSize = sizeof(client);
+    char host[NI_MAXHOST];  
+    char svc[NI_MAXSERV];  
     int statusCode;
     char buf[4096];
+
+    int GetClient();
+    int Init(uint32_t port);
     void CloseServer();
 
 
