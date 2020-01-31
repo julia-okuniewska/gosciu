@@ -1,5 +1,6 @@
 #pragma once
 #include <wiringPi.h>
+#include <stdint.h>
 #include "../config.h"
 
 
@@ -9,28 +10,28 @@ enum class EngineStepMode {full = 0, half = 4, quarter = 2, one_eighth = 6,one_s
 
 #define STEP_ANGLE 1.8f
 
-typedef struct EngineStatus
+typedef struct EngineStatus_t
 {
     EngineDir direction;
     EngineRunStatus runStatus;
-};
+}EngineStatus;
 
 class Engine
 {
     private:
     EngineStatus status;
-    uint8_t stepPin, dirPin;
-    static EngineStepMode stepMode = EngineStepMode::half;
+    short stepPin, dirPin;
+    static EngineStepMode stepMode;
     template<typename T>
-    void Engine::Step(T durationMs);
+    void Step(T durationMs);
     void SetDirection(EngineDir direction);
 
 
     public:
-    void Rotate(EngineDir direction,uint8_t speed,int16_t angle);
+    void Rotate(EngineDir direction,uint8_t speed,float angle);
     static void SetStepMode(EngineStepMode stepMode);
     EngineStatus GetStatus();
     EngineStepMode GetStepMode();
-    void Setup(uint8_t stepPin, uint8_t dirPin);
+    void Setup(short stepPin, short dirPin);
     static void Init();
 };

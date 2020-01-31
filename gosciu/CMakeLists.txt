@@ -9,7 +9,7 @@ file(GLOB SOURCES
     server/*.cpp
     engines/*.h
     engines/*.cpp
-)
+
 )
 
 add_executable(GOSCIU ${SOURCES})
