@@ -71,13 +71,14 @@ EngineStepMode Engine::GetStepMode()
 //Rotate geared engine 
 void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
 {
+    //std::cout<<"dir: "<<(short)direction<<std::endl;
     this->SetDirection(direction);
     usleep(1000);
     unsigned long rotationSteps;
     float stepTime;
     angle = abs(angle);
     //steptime <=2 ms
-
+  
     switch (this->stepMode)
     {
     case EngineStepMode::full:
@@ -101,7 +102,7 @@ void Engine::Rotate(EngineDir direction,uint8_t speed,float angle)
          //stepTime ~ speed
     break;
     }
-    stepTime = 0.6*(100/speed);
+    stepTime = 0.8*(100/speed);
     while (rotationSteps)
     {
         this->Step(stepTime);
